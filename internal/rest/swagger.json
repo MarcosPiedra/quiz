@@ -1,0 +1,219 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Quiz search engine",
+        "contact": {
+            "name": "Marcos",
+            "email": "piedra.osuna@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/quiz/v1/evaluation": {
+            "post": {
+                "description": "New evaluation",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Evaluation"
+                ],
+                "summary": "New evaluation",
+                "parameters": [
+                    {
+                        "description": "Evaluation request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/quiz.EvaluationsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.EvaluationResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/quiz/v1/questions": {
+            "get": {
+                "description": "Get questions",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Get questions",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.QuestionsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/quiz/v1/questions/{id}": {
+            "get": {
+                "description": "Get question",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Get question",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Question Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.QuestionResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/quiz.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "quiz.AnswersResponse": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "quiz.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "quiz.EvaluationRequest": {
+            "type": "object",
+            "required": [
+                "answerId",
+                "questionId"
+            ],
+            "properties": {
+                "answerId": {
+                    "type": "integer"
+                },
+                "questionId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "quiz.EvaluationResponse": {
+            "type": "object",
+            "properties": {
+                "comparative": {
+                    "type": "string"
+                },
+                "correctAnswer": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "questionsAnswered": {
+                    "type": "integer"
+                },
+                "totalQuestions": {
+                    "type": "integer"
+                }
+            }
+        },
+        "quiz.EvaluationsRequest": {
+            "type": "object",
+            "properties": {
+                "answers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/quiz.EvaluationRequest"
+                    }
+                }
+            }
+        },
+        "quiz.QuestionResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "posibleAnswers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/quiz.AnswersResponse"
+                    }
+                },
+                "question": {
+                    "type": "string"
+                }
+            }
+        },
+        "quiz.QuestionsResponse": {
+            "type": "object",
+            "properties": {
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/quiz.QuestionResponse"
+                    }
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
+    }
+}

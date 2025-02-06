@@ -1,0 +1,5 @@
+Environment: "Development"
+LogLevel: "DEBUG"
+Web:
+  Port: "8080"
+

@@ -1,0 +1,7 @@
+# Ignore Go build artifacts
+api
+*.exe
+
+# Ignore Git and editor files
+.git
+.gitignore

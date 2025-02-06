@@ -1,0 +1,29 @@
+version: '3'
+
+tasks:
+  build-cli-windows:
+    platforms: [windows]  
+    cmds:
+      - cmd: go build -o quiz.exe
+
+  build-cli-linux:
+    platforms: [linux]  
+    cmds:
+      - cmd: go build -o quiz
+
+  docker:
+    desc: "Builds the Docker image and runs the container"
+    cmds:
+      - cmd: docker container stop quiz-api-container
+        ignore_error: true
+      - cmd: docker container rm quiz-api-container    
+        ignore_error: true
+      - docker build -t quiz-api:latest . 
+      - docker run --name quiz-api-container -p 8080:8080 -d quiz-api:latest
+
+  build-cli:
+    desc: "Compiles the cli project"
+    cmds:
+      - go test ./...
+      - task: build-cli-windows
+      - task: build-cli-linux
